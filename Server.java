@@ -20,7 +20,7 @@ public class Server{
         
         try{
             while(true){
-                new ServerThread(server.accept()).start();
+                new ServerThread(server.accept()).start(); //Start the new ServerThread
             }
         }
         catch(Exception e){
@@ -37,17 +37,42 @@ class ServerThread extends Thread{
     }
     
     public void run(){
-        private BufferedReader stringIn;
-        private PrintWriter stringOut;
+        private BufferedReader stringIn; //The stream that will receive commands
+        private PrintWriter stringOut; //The stream that will send commands
         
         try{
+            //Setup the command streams
             stringIn= new BufferedReader(new InputStreamReader(client.getInputStream()));
             stringOut= new PrintWriter(new OutputStreamWriter(client.getOutputStream()));
             
+            /*
+            Place code here. For example:
             
+            String command= stringIn.readLine();
+            if(command.equals("sayGreeting")){
+                stringOut.println("Hello world!");
+                stringOut.flush();
+            }
+            
+            */
         }
         catch(Exception e){
             e.printStackTrace();
+        }
+        
+        /* Closes the streams and client socket connection. */
+        finally{
+            try{
+                if(stringIn!=null)
+                    stringIn.close();
+                if(stringOut!=null)
+                    stringOut.close();
+                if(client!=null)
+                    client.close();
+            }
+            catch(Exception e){
+                e.printStackTrace();
+            }
         }
     }
 }
